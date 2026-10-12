@@ -17,8 +17,8 @@ use ntfy::prelude::*;
 async fn main() -> Result<(), Error> {
     let dispatcher = dispatcher::builder("https://ntfy.sh")
         .credentials(Auth::credentials("username", "password")) // Add optional credentials
-        //.proxy("socks5h://127.0.0.1:9050") // Add optional proxy (requires "socks" feature)
-        .build_async()?; // Build dispatcher
+        //.proxy("socks5h://127.0.0.1:9050") // Add optional proxy (requires the `socks` feature)
+        .build_async()?; // Build the dispatcher
 
     let action = Action::new(
         ActionType::Http,
@@ -28,14 +28,14 @@ async fn main() -> Result<(), Error> {
 
     let payload = Payload::new("mytopic")
         .message("Hello, **World**!") // Add optional message
-        .title("Alert") // Add optiona title
+        .title("Alert") // Add optional title
         .tags(["warning"]) // Add optional tags
-        .priority(Priority::High) // Edit priority
+        .priority(Priority::High) // Set priority
         .actions([action]) // Add optional actions
-        .click(Url::parse("https://example.com")?) // Add optional clickable url
-        .attach(Url::parse("https://example.com/file.jpg")?) // Add optional url attachment
-        .delay("30min") // Add optional delay
-        .markdown(true); // Use markdown
+        .click(Url::parse("https://example.com")?) // Add optional clickable URL
+        .attach(Url::parse("https://example.com/file.jpg")?) // Add optional URL attachment
+        .delay("30min") // Add optional delivery delay
+        .markdown(true); // Enable Markdown formatting
 
     dispatcher.send(&payload).await?;
 
@@ -43,28 +43,28 @@ async fn main() -> Result<(), Error> {
 }
 ```
 
+More examples can be found in the [examples](examples) directory.
+
 ## Crate Feature Flags
 
 The following crate feature flags are available:
 
-| Feature               | Default | Description                                        |
-|-----------------------|:-------:|----------------------------------------------------|
-| `async`               |   Yes   | Enables the async `dispatcher` and `subscriber`    |
-| `blocking`            |   No    | Enables the blocking `dispatcher` and `subscriber` |
-| `async-dispatcher`    |   Yes   | Enables the async `dispatcher`                     |
-| `blocking-dispatcher` |   No    | Enables the blocking `dispatcher`                  |
-| `async-subscriber`    |   Yes   | Enables the async and `subscriber`                 |
-| `blocking-subscriber` |   No    | Enables the blocking and `subscriber`              |
-| `socks`               |   No    | Enables socks proxy support                        |
-| `rustls`              |   Yes   | Enables rust TLS                                   |
-| `native-tls`          |   No    | Enables native TLS (openssl)                       |
-
-More examples can be found in the [examples](examples) directory.
+| Feature               | Default | Description                                         |
+|-----------------------|:-------:|-----------------------------------------------------|
+| `async`               |   Yes   | Enables the async `dispatcher` and `subscriber`     |
+| `blocking`            |   No    | Enables the blocking `dispatcher` and `subscriber`  |
+| `async-dispatcher`    |   Yes   | Enables the async `dispatcher`                      |
+| `blocking-dispatcher` |   No    | Enables the blocking `dispatcher`                   |
+| `async-subscriber`    |   Yes   | Enables the async `subscriber`                      |
+| `blocking-subscriber` |   No    | Enables the blocking `subscriber`                   |
+| `socks`               |   No    | Enables SOCKS proxy support                         |
+| `rustls`              |   Yes   | Enables TLS via `rustls`                            |
+| `native-tls`          |   No    | Enables TLS via the platform's native implementation (OpenSSL on Linux) |
 
 ## Minimum Supported Rust Version (MSRV)
 
-This project is built with the Rust language version `2024` and requires a minimum compiler version of `1.85.0`.
+This project uses the Rust `2024` edition and requires a minimum compiler version of `1.85.0`.
 
 ## License
 
-This project is distributed under the MIT software license - see the [LICENSE](LICENSE) file for details
+This project is distributed under the MIT license. See the [LICENSE](LICENSE) file for details.
